@@ -154,8 +154,8 @@ def graph():
         return "<h2>No data available to plot. Please upload a file first.</h2>"
 
     selected_column_index = session.get("selected_column_index", None)
-    if selected_column_index is None:
-        return "<h2>Please select a valid column index.</h2>"
+    if selected_column_index is None or selected_column_index == 0:
+        return "<h2>Please select a valid column index (excluding 0th column).</h2>"
 
     dfs = []
     print("Files Data:", session["files_data"])
@@ -163,15 +163,15 @@ def graph():
         file_name = file_info["name"]
         print(f"Fetching data for file: {file_name}, column index: {selected_column_index}")
         column_data = get_column_data(file_name, selected_column_index)
+        time_data = get_column_data(file_name, 0)  # Fetch first column as x-axis
         print(f"Retrieved column data: {column_data}")
-        if column_data is None or not column_data:
-            print(f"No valid column data for {file_name}")
+        print(f"Retrieved time data: {time_data}")
+        if column_data is None or not column_data or time_data is None or not time_data:
+            print(f"No valid column or time data for {file_name}")
             continue
 
-        time_series = range(len(column_data))
-        df = pd.DataFrame({"time": time_series, "data": column_data})
-        # Filter out rows with negative values
-        df = df[(df["data"] >= 0)]  # Changed to filter only "data" column
+        df = pd.DataFrame({"time": time_data, "data": column_data})
+        df = df[(df["data"] >= 0) & (df["time"] >= 0)]  # Filter out negative values from both columns
         if df.empty:
             print(f"No non-negative data for {file_name} in column {selected_column_index}")
             continue
@@ -180,12 +180,10 @@ def graph():
     if not dfs:
         return "<h2>No valid data found to plot after filtering.</h2>"
 
-    # Normalize time
     min_time = min(df["time"].min() for _, df in dfs)
     for _, df in dfs:
         df["time"] -= min_time
 
-    # Create Bokeh figure
     p = figure(
         title="CSV Column Comparison",
         x_axis_label="Time (normalized)",

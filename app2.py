@@ -112,7 +112,6 @@ def index():
                 session["selected_column_index"] = None
 
             session.modified = True
-
     column_count = get_column_count(session["files_data"])
     same_columns = column_count is not None
     column_range = f"0 to {column_count - 1}" if same_columns else None

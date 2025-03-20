@@ -61,8 +61,7 @@
                         <button type="submit" name="select_column" class="btn-primary">Confirm Column</button>
                         <br></br>
                     </form>
-
-                        
+                              
                     {% if selected_column_index is not none %}
                         <p>Selected Column Index: {{ selected_column_index }}</p>
                         <a href="{{ url_for('graph') }}" target="_blank">

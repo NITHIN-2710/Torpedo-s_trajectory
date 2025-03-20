@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV & HEX File Comparison</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style2.css') }}">
+</head>
+<body>
+    <div class="container" id="main-container">
+        <h1 id="main-heading">CSV & HEX File Comparison Tool</h1>
+
+        <!-- Upload Section -->
+        <div class="upload-section" id="upload-section" {% if files_data %} style="display: none;" {% endif %}>
+            <form action="/" method="POST" enctype="multipart/form-data" class="upload-form" id="upload-form">
+                <div id="drop-area" class="drop-box">
+                    <div class="upload-content">
+                        <p>Drag & Drop Your Files Here</p>
+                        <input id="file-input" type="file" name="files[]" multiple accept=".csv, .hex">
+                        <div class="file-chooser">
+                            <label for="file-input" class="btn-choose">Choose Files</label>
+                            <br>
+                            <span id="file-names" class="file-names-text">No file chosen</span>
+                        </div>
+                        
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary" id="next-button">Next</button>
+            </form>
+        </div>
+
+        <!-- Split Screen Section (Appears after uploading files) -->
+        {% if files_data %}
+        <div class="split-container">
+            <!-- Left Panel: Uploaded Files List -->
+            <div class="left-panel">
+                {% for file in files_data %}
+                <div class="file-box">
+                    <span class="file-name">{{ file.name }}</span>
+                    <form method="POST" class="remove-form">
+                        <input type="hidden" name="remove_file" value="{{ file.name }}">
+                        <button type="submit" class="remove-btn">&times;</button>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Right Panel: Column Selection and Actions -->
+            <div class="right-panel">
+                <h2>Uploaded Files</h2>
+                <hr>
+
+                {% if not same_columns %}
+                    <p class="error-message">Error: Uploaded files have different data type. Please upload files with the same structure.</p>
+                {% else %}
+                    <form method="POST" class="column-form">
+                        <label for="column_index">Enter Column Index (Range: 0 to 12):</label>
+                        <br></br>
+                        <input type="number" name="column_index" id="column_index" min="0" max="12" required>
+                        <br></br>
+                        <button type="submit" name="select_column" class="btn-primary">Confirm Column</button>
+                        <br></br>
+                    </form>
+
+                        
+                    {% if selected_column_index is not none %}
+                        <p>Selected Column Index: {{ selected_column_index }}</p>
+                        <a href="{{ url_for('graph') }}" target="_blank">
+                            <button class="btn-display">Display Graph</button>
+                        </a>
+                    {% endif %}
+                {% endif %}
+
+                <button onclick="clearAllFiles()" class="btn-clear-all">Clear All Files</button>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const mainHeading = document.getElementById("main-heading");
+            const splitContainer = document.querySelector(".split-container");
+
+            // Hide heading only when the panels section is visible
+            if (splitContainer) {
+                mainHeading.style.display = "none"; 
+            } else {
+                mainHeading.style.display = "block"; 
+            }
+        });
+
+        const dropArea = document.getElementById('drop-area');
+        const fileInput = document.getElementById('file-input');
+        const fileNames = document.getElementById('file-names');
+        const uploadForm = document.getElementById('upload-form');
+        const uploadSection = document.getElementById('upload-section');
+        const mainContainer = document.getElementById('main-container');
+
+        dropArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropArea.classList.add('drag-over');
+        });
+
+        dropArea.addEventListener('dragleave', () => {
+            dropArea.classList.remove('drag-over');
+        });
+
+        dropArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropArea.classList.remove('drag-over');
+            fileInput.files = e.dataTransfer.files;
+            updateFileNames();
+        });
+
+        fileInput.addEventListener('change', updateFileNames);
+
+        function updateFileNames() {
+            if (fileInput.files.length > 0) {
+                fileNames.textContent = Array.from(fileInput.files).map(file => file.name).join(', ');
+            } else {
+                fileNames.textContent = "No file chosen";
+            }
+        }
+
+        function clearAllFiles() {
+            if (confirm("Are you sure you want to clear all files?")) {
+                const form = document.createElement("form");
+                form.method = "POST";
+                form.innerHTML = '<input type="hidden" name="clear_all" value="true">';
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+
+        uploadForm.addEventListener("submit", function () {
+            uploadSection.style.display = "none";
+            mainHeading.style.display = "none";
+            mainContainer.classList.add("split-view");
+        });
+    </script>
+</body>
+</html>

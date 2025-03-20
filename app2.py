@@ -117,7 +117,7 @@ def index():
     same_columns = column_count is not None
     column_range = f"0 to {column_count - 1}" if same_columns else None
 
-    return render_template("index.html", files_data=session["files_data"], same_columns=same_columns, column_range=column_range, selected_column_index=selected_column_index)
+    return render_template("index2.html", files_data=session["files_data"], same_columns=same_columns, column_range=column_range, selected_column_index=selected_column_index)
 
 @app.route("/graph")
 def graph():
@@ -174,4 +174,4 @@ def graph():
     return render_template("graph.html", script=script, div=div, cdn_js=CDN.render())
 
 if __name__ == "__main__":
-    app.run(debug=True,port=2023)
+    app.run(debug=True, port=5000)

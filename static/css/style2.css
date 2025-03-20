@@ -1,0 +1,302 @@
+/* Root Colors */
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #0056b3;
+    --background-color: #f4f6f9;
+    --text-color: #333;
+    --border-color: #ccc;
+    --error-color: red;
+}
+
+/* Reset & Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden; /* Prevent scrolling */
+    font-family: 'Arial', sans-serif;
+    background-color: var(--background-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Full-Screen Layout */
+.full-screen-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Split Screen Layout */
+.split-container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden; /* Prevent unwanted scrolling */
+}
+
+/* Left Panel - 70% Width */
+.left-panel {
+    flex: 8;
+    padding: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    background: #ffffff;
+    overflow-y: auto; /* Allow scroll inside if content overflows */
+}
+
+/* Right Panel - 30% Width */
+.right-panel {
+    flex: 2;
+    padding: 15px;
+    background: #ffffff;
+    border-left: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto; /* Allow scroll if content overflows */
+}
+
+/* Heading */
+h1 {
+    font-size: 36px;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Drag & Drop Box */
+.drop-box {
+    border: 4px dashed var(--primary-color);
+    border-radius: 12px;
+    padding: 40px;
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: 0.3s;
+    width: 100%;
+    min-height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.drop-box.drag-over {
+    background-color: #e9ecef;
+    border-color: var(--secondary-color);
+}
+
+/* Upload Content */
+.upload-content {
+    text-align: center;
+    width: 100%;
+}
+
+.file-chooser {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.file-names-text {
+    margin-top: 8px; /* Adjust spacing as needed */
+    font-size: 14px;
+    color: #555;
+}
+
+.btn-choose {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-choose:hover {
+    background-color: var(--secondary-color);
+}
+
+#file-input {
+    display: none;
+}
+
+#file-names {
+    font-size: 16px;
+    color: #666;
+}
+
+/* Upload Button */
+.btn-primary {
+    border: none;
+    padding: 12px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    width: 100%;
+    margin-top: 10px;
+}
+
+
+.btn-primary:hover {
+    background-color: var(--secondary-color);
+}
+
+.btn-display {
+    border: none;
+    padding: 12px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    width: 100%;
+    margin-top: 450px;
+}
+.panels-active #main-heading {
+    display: none;
+}
+
+/* Uploaded Files Section */
+.files-section {
+    margin-top: 30px;
+    text-align: left;
+    width: 100%;
+}
+
+.files-list {
+    list-style: none;
+    padding: 0;
+}
+
+.file-item {
+    display: flex;
+    justify-content: space-between;
+    background: #ffffff;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+}
+
+.file-name {
+    font-size: 14px;
+}
+
+.btn-remove {
+    background: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.btn-remove:hover {
+    background: darkred;
+}
+
+/* File Box (Small and Fit) */
+.file-box {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px;
+    width: calc(33.33% - 10px);
+    height: 180px; /* Adjusted height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    box-sizing: border-box;
+
+}
+
+/* Remove Button */
+.remove-btn {
+    background: red;
+    color: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 50%;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.remove-btn:hover {
+    background: darkred;
+}
+
+/* Column Form and Buttons */
+.column-form {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.column-form input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+}
+
+/* Confirm Button */
+.btn-confirm {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px; /* Adds gap between confirm and clear all buttons */
+}
+
+/* Clear All Button */
+.btn-clear-all {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px; /* Ensures spacing from the previous button */
+}
+
+/* Responsive Fix */
+@media (max-width: 768px) {
+    .split-container {
+        flex-direction: column;
+    }
+
+    .left-panel, .right-panel {
+        width: 100%;
+        flex: unset;
+        height: 50vh; /* Each panel takes half screen */
+    }
+
+    .file-box {
+        width: 100%;
+        height: auto;
+    }
+}

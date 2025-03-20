@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;700&display=swap');
+
 /* Root Colors */
 :root {
     --primary-color: #007bff;
@@ -14,12 +16,11 @@
     padding: 0;
     box-sizing: border-box;
 }
-
 html, body {
     height: 100vh;
     width: 100vw;
     overflow: hidden; /* Prevent scrolling */
-    font-family: 'Arial', sans-serif;
+    font-family: 'Google Sans', sans-serif;
     background-color: var(--background-color);
     display: flex;
     justify-content: center;
@@ -169,6 +170,7 @@ h1 {
     width: 100%;
     margin-top: 450px;
 }
+
 .panels-active #main-heading {
     display: none;
 }
@@ -225,7 +227,6 @@ h1 {
     align-items: center;
     position: relative;
     box-sizing: border-box;
-
 }
 
 /* Remove Button */
@@ -246,7 +247,6 @@ h1 {
     align-items: center;
     justify-content: center;
 }
-
 
 .remove-btn:hover {
     background: darkred;
@@ -280,6 +280,11 @@ h1 {
     width: 100%;
     padding: 12px;
     margin-top: 10px; /* Ensures spacing from the previous button */
+    font-family: "Google Sans", sans-serif;
+    font-size: medium;
+    color: rgb(255, 255, 255);
+    background-color: #ff0000;
+    border-radius: 15px;
 }
 
 /* Responsive Fix */
